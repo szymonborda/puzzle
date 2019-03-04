@@ -1,4 +1,5 @@
-let table = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
+let table = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+let bgimg = '22';
 
 function render() {
     let i = 0;
@@ -7,10 +8,11 @@ function render() {
 
     table.forEach((elem) => {
         if (elem == 0) {
-            document.querySelectorAll('.container')[0].innerHTML += '<div class="block empty" data-index="' + i + '"></div>';
+            document.querySelectorAll('.container')[0].innerHTML += '<div class="block empty" data-no="' + elem + '" data-index="' + i + '"></div>';
+            console.log('0');
         } else {
-            document.querySelectorAll('.container')[0].innerHTML += '<div class="block" data-index="' + i + '">' +
-                elem + '</div>';
+            document.querySelectorAll('.container')[0].innerHTML += '<div class="block" data-no="' + elem + '" data-index="' + i + '" style=\'background-image:' + bgimg + '\'></div>';
+            console.log('1');
         }
 
         i++;
@@ -27,16 +29,16 @@ function render() {
 
 function checkIfMove(index) {
     if (table[index] != 0) {
-        if ((table.indexOf(0) == 4) || (table.indexOf(0) == 8) || (table.indexOf(0) == 12)) {
-            if ((table[parseInt(index) - 1] == 0) || (table[parseInt(index) + 4] == 0) || (table[parseInt(index) - 4] == 0)) {
+        if ((table.indexOf(0) == 3) || (table.indexOf(0) == 6)) {
+            if ((table[parseInt(index) - 1] == 0) || (table[parseInt(index) + 3] == 0) || (table[parseInt(index) - 3] == 0)) {
                 move(index);
             }
-        } else if ((table.indexOf(0) == 3) || (table.indexOf(0) == 7) || (table.indexOf(0) == 11)) {
-            if ((table[parseInt(index) + 1] == 0) || (table[parseInt(index) + 4] == 0) || (table[parseInt(index) - 4] == 0)) {
+        } else if ((table.indexOf(0) == 2) || (table.indexOf(0) == 5)) {
+            if ((table[parseInt(index) + 1] == 0) || (table[parseInt(index) + 3] == 0) || (table[parseInt(index) - 3] == 0)) {
                 move(index);
             }
         } else {
-            if ((table[parseInt(index) + 1] == 0) || (table[parseInt(index) - 1] == 0) || (table[parseInt(index) + 4] == 0) || (table[parseInt(index) - 4] == 0)) {
+            if ((table[parseInt(index) + 1] == 0) || (table[parseInt(index) - 1] == 0) || (table[parseInt(index) + 3] == 0) || (table[parseInt(index) - 3] == 0)) {
                 move(index);
             }
         }
@@ -54,17 +56,17 @@ function mix() {
     //        checkIfMove(Math.floor(Math.random() * Math.floor(16)));
     //    }
     let mixing = setInterval(() => {
-        checkIfMove(Math.floor(Math.random() * Math.floor(16)));
+        checkIfMove(Math.floor(Math.random() * Math.floor(9)));
     }, 5);
 
     setTimeout(() => {
         clearInterval(mixing);
         startTimer();
-    }, 10000);
+    }, 3000);
 }
 
 function checkIfSolved() {
-    if (JSON.stringify(table) === JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0])) {
+    if (JSON.stringify(table) === JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, 0])) {
         setTimeout(() => {
             alert('wygrales!!!!!');
             clearInterval(timer);
@@ -101,3 +103,12 @@ function renderTime(m, s) {
 
 render();
 //mix();
+
+//image choose
+document.querySelectorAll('.img-choose').forEach((img) => {
+    img.addEventListener('click', (chosenImg) => {
+        bgimg = img.style.backgroundImage;
+        console.log(bgimg);
+        render();
+    });
+});
